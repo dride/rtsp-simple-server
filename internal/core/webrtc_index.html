@@ -36,10 +36,30 @@
   </head>
   <body>
     <div id="remoteVideos">
-      <video id="video" muted autoplay playsinline></video>
+      <video id="video" muted controls autoplay playsinline></video>
     </div>
     <script>
+      function iOS() {
+        return (
+          [
+            'iPad Simulator',
+            'iPhone Simulator',
+            'iPod Simulator',
+            'iPad',
+            'iPhone',
+            'iPod',
+          ].includes(navigator.platform) ||
+          // iPad on iOS 13 detection
+          (navigator.userAgent.includes('Mac') && 'ontouchend' in document)
+        );
+      }
+
       const restartPause = 2000;
+
+      if (iOS() == false) {
+        const video = document.getElementById('video');
+        video.removeAttribute('controls', 'true');
+      }
 
       class Receiver {
         constructor() {
